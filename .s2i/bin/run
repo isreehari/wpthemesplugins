@@ -1,0 +1,61 @@
+#!/bin/bash
+
+# Run the custom run script. This script would only be used where the
+# custom image is run as an application image. If the custom image is
+# used as a S2I builder, this script is bypassed and custom script will
+# be executed directly.
+
+
+if [ -d /opt/app-root/downloads/plugins ]; then
+    if [ ! -d wp-content/plugins/ ]; then
+        mkdir -p wp-content/plugins/ 2>/dev/null || true
+    fi
+
+    if [ -d wp-content/plugins/ ]; then
+        cp -rf /opt/app-root/downloads/plugins/* wp-content/plugins/ 2>/dev/null || true
+    fi
+fi
+
+if [ -d /opt/app-root/downloads/themes ]; then
+    if [ ! -d wp-content/themes/ ]; then
+        mkdir -p wp-content/themes/ 2>/dev/null || true
+    fi
+
+    if [ -d wp-content/themes/ ]; then
+        cp -rf /opt/app-root/downloads/themes/* wp-content/themes/ 2>/dev/null || true
+    fi    
+fi
+
+if [ -d /opt/app-root/downloads/languages ]; then
+    if [ ! -d wp-content/languages/ ]; then
+        mkdir -p wp-content/languages/ 2>/dev/null || true
+    fi
+
+    if [ -d wp-content/languages/ ]; then
+        cp -rf /opt/app-root/downloads/languages/* wp-content/languages/ 2>/dev/null || true
+    fi    
+fi
+
+if [ -f /opt/app-root/downloads/configs/wp-config.php ]; then
+    if [ ! -f wp-config.php ]; then
+        echo "" > wp-config.php 2>/dev/null || true
+    fi
+
+    if [ -f wp-config.php ]; then
+        cp -f /opt/app-root/downloads/configs/wp-config.php wp-config.php 2>/dev/null || true
+    fi    
+fi
+
+if [ -f /opt/app-root/downloads/configs/.htaccess ]; then
+    if [ ! -f .htaccess ]; then 
+        echo "" > .htaccess 2>/dev/null || true
+    fi
+
+    if [ -f .htaccess ]; then
+        cp -f /opt/app-root/downloads/configs/.htaccess .htaccess 2>/dev/null || true
+    fi    
+fi
+
+# Execute the original run script, replacing this script as current process.
+
+exec /usr/libexec/s2i/run
