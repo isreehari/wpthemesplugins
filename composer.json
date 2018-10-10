@@ -1,0 +1,15 @@
+{
+    "name": "isreehari/wpthemesplugins",
+    "description": "WP Themes Plugins",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Sree, Inukollu",
+            "email": "isreehari@hotmail.com"
+        }
+    ],
+    "require": {
+        "phpunit/phpunit": "^5.7",
+        "hybridauth/hybridauth": "^2.12"
+    }
+}
